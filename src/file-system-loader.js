@@ -38,12 +38,21 @@ export default class FileSystemLoader {
   }
 
   fetch( _newPath, relativeTo, _trace ) {
+    console.log("FETCH")
+    console.log("_newPath", _newPath)
+    console.log("relativeTo", relativeTo)
+    console.log("_trace", _trace)
+
     let newPath = _newPath.replace( /^["']|["']$/g, "" ),
       trace = _trace || String.fromCharCode( this.importNr++ )
     return new Promise( ( resolve, reject ) => {
       let relativeDir = path.dirname( relativeTo ),
         rootRelativePath = path.resolve( relativeDir, newPath ),
         fileRelativePath = path.resolve( path.join( this.root, relativeDir ), newPath )
+      console.log("this.root", this.root)
+      console.log("relativeDir:", relativeDir)
+      console.log("rootRelativePath:", rootRelativePath)
+      console.log("fileRelativePath1", fileRelativePath)
 
       // if the path is not relative or absolute, try to resolve it in node_modules
       if (isModule(newPath)) {
@@ -52,6 +61,7 @@ export default class FileSystemLoader {
         }
         catch (e) {}
       }
+      console.log('fileRelativePath2', fileRelativePath)
 
       const tokens = this.tokensByFile[fileRelativePath]
       if (tokens) { return resolve(tokens) }

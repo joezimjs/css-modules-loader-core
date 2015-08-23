@@ -24,6 +24,7 @@ Object.keys( pipelines ).forEach( dirname => {
           let loader = new FileSystemLoader( testDir, pipelines[dirname] )
           let expectedTokens = JSON.parse( fs.readFileSync( path.join( testDir, testCase, "expected.json" ), "utf-8" ) )
           loader.fetch( `${testCase}/source.css`, "/" ).then( tokens => {
+            console.log("tokens", tokens)
             assert.equal( loader.finalSource, expected )
             assert.equal( JSON.stringify( tokens ), JSON.stringify( expectedTokens ) )
           } ).then( done, done )
